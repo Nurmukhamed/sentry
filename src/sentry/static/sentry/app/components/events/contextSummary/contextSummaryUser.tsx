@@ -1,49 +1,52 @@
 import React from 'react';
 
-import UserAvatar from 'app/components/avatar/userAvatar';
-import {removeFilterMaskedEntries} from 'app/components/events/interfaces/utils';
-import {t} from 'app/locale';
 import {objectIsEmpty} from 'app/utils';
 import {AvatarUser} from 'app/types';
+import UserAvatar from 'app/components/avatar/userAvatar';
+import {t} from 'app/locale';
+import {removeFilterMaskedEntries} from 'app/components/events/interfaces/utils';
 import ContextSummaryNoSummary from './contextSummaryNoSummary';
 import ContextSummaryInfo from './contextSummaryInfo';
-import ContextSummaryTitle from './contextSummaryTitle';
 
 type Props = {
   data: AvatarUser;
 };
 
-const userTitleTypes = ['email', 'ip_address', 'id', 'username'];
+enum userTitleType {
+  EMAIL = 'email',
+  IP_ADDRESS = 'ip_address',
+  ID = 'id',
+  USERNAME = 'username',
+}
 
 const ContextSummaryUser = ({data}: Props) => {
-  const titleRef = React.createRef<HTMLHeadingElement>();
   const user: AvatarUser = removeFilterMaskedEntries(data);
 
   if (objectIsEmpty(user)) {
     return <ContextSummaryNoSummary title={t('Unknown User')} />;
   }
 
-  // const renderUserDetails = () => {
-  //   if (user.id && user.id !== nodeTitle) {
-  //     return <ContextSummaryInfo subject={t('ID:')} obj={user} objKey="id" />;
-  //   }
-
-  //   if (user.username && user.username !== nodeTitle) {
-  //     return <ContextSummaryInfo subject={t('Username:')} obj={user} objKey="username" />;
-  //   }
-
-  //   return null;
-  // };
+  const userTitleTypes = Object.keys(userTitleType);
 
   const userTitle = Object.keys(user).find(userDetail =>
     userTitleTypes.includes(userDetail)
   );
 
-  console.log('userTitle', userTitle);
-
   if (!userTitle) {
     return <ContextSummaryNoSummary title={t('Unknown User')} />;
   }
+
+  const renderUserDetails = () => {
+    if (user.id && user.id !== user[userTitle]) {
+      return <ContextSummaryInfo subject={t('ID:')} obj={user} objKey="id" />;
+    }
+
+    if (user.username && user.username !== user[userTitle]) {
+      return <ContextSummaryInfo subject={t('Username:')} obj={user} objKey="username" />;
+    }
+
+    return null;
+  };
 
   return (
     <div className="context-item user">
@@ -57,8 +60,8 @@ const ContextSummaryUser = ({data}: Props) => {
       ) : (
         <span className="context-item-icon" />
       )}
-      {userTitle}
-      {/* {renderUserDetails()} */}
+      {user[userTitle] && <h3 data-test-id="user-title">{user[userTitle]}</h3>}
+      {renderUserDetails()}
     </div>
   );
 };

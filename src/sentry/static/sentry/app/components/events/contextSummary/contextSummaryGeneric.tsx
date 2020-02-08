@@ -2,6 +2,7 @@ import React from 'react';
 
 import {t} from 'app/locale';
 import {objectIsEmpty} from 'app/utils';
+
 import ContextSummaryNoSummary from './contextSummaryNoSummary';
 import ContextSummaryInfo from './contextSummaryInfo';
 import generateClassName from './generateClassName';

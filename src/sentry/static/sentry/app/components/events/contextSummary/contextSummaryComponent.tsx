@@ -1,6 +1,7 @@
 import React from 'react';
 
 import {t} from 'app/locale';
+import {AvatarUser} from 'app/types';
 
 import ContextSummaryUser from './contextSummaryUser';
 import ContextSummaryGeneric from './contextSummaryGeneric';
@@ -20,13 +21,13 @@ export enum ComponentType {
 
 type Props = {
   type: ComponentType;
-  data: any;
+  data: {};
 };
 
 const ContextSummaryComponent = ({type, data}: Props) => {
   switch (type) {
     case ComponentType.USER:
-      return <ContextSummaryUser data={data} />;
+      return <ContextSummaryUser data={data as AvatarUser} />;
     case ComponentType.BROWSER:
       return <ContextSummaryGeneric data={data} unknownTitle={t('Unknown Browser')} />;
     case ComponentType.RUNTIME:

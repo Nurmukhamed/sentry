@@ -6,7 +6,7 @@ import DeviceName from 'app/components/deviceName';
 
 import ContextSummaryNoSummary from './contextSummaryNoSummary';
 import ContextSummaryInfo from './contextSummaryInfo';
-import ContextSummaryTitle from './contextSummaryTitle';
+// import ContextSummaryTitle from './contextSummaryTitle';
 import generateClassName from './generateClassName';
 
 type Props = {
@@ -46,9 +46,7 @@ const ContextSummaryDeviceSummary = ({data}: Props) => {
       <span className="context-item-icon" />
       <h3>
         {data.model ? (
-          <DeviceName value={data.model}>
-            {value => <ContextSummaryTitle obj={data}>{value}</ContextSummaryTitle>}
-          </DeviceName>
+          <DeviceName value={data.model}>{value => value}</DeviceName>
         ) : (
           t('Unknown Device')
         )}
